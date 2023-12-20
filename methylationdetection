@@ -49,15 +49,13 @@ echo '#===================================================================#'
 #============================= Pipeline flow ============================#
 start=`date +%s`
 
-mkdir $output/CSV
 mkdir $output/Bismark
 
 
 bismark_rounded $input $output $ref_folder $thr $quality $read_fastq samples
-bindcov $output/Bismark/samples/bedGraph $output/CSV 'Sample'
+bindcov $output/Bismark/samples/bedGraph $output 'Sample'
 
-echo '================================================================='
 end=`date +%s`
 runtime=$((end-start))
 echo 'run time = ' $runtime'(sec)'
-echo '===================== AutoMethyc Complete ======================='
+echo '====================== Done ====================='
