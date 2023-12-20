@@ -25,6 +25,7 @@ sudo find . -maxdepth 1 -type f ! -name "README.md" -exec cp {} $PATH \;
 ```
 
 ## Example
+To run it we made a demonstration to facilitate its use
 ```
 wget -O example.zip https://sourceforge.net/projects/automethycexample/files/latest/download
 unzip example.zip && cd example
