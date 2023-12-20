@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#============================= Defect parameters ============================#
+thr=4
+quality=30
+read_fastq="Paired"
+#============================= Input Parameters ============================#
+arr=()
+while [[ $# -gt 0 ]]; do
+	opt="$1"
+	shift;
+	current_arg="$1"
+	case "$opt" in
+"-h"|"--help"      ) echo '''
+MethylationDetection version 0.0.1-beta
+Usage
+	methylationdetection [options]
+Options
+	-i --input		Folder with fastq
+	-o --output		Output location
+	-r --ref		reference genome file
+Optional arguments
+	-t --threads		Number of threads (default=4)
+	-q --quality		Minimum quality (default=30)
+	--read		Read type in fastq (default=Paired)
+''';  exit 1;;
+"-i"|"--input"      ) input="$1"; arr+=( "-i" "$1"); shift;;
+"-o"|"--output"      ) output="$1"; arr+=("-o" "$1"); shift;;
+"-r"|"--reference"      ) ref="$1"; arr+=("-r" "$1"); shift;;
+"-t"|"--threads"      ) thr="$1"; arr+=("-t" "$1") shift;;
+"-q"|"--quality"       ) quality="$1"; arr+=("-q" "$1"); shift;;
+"--read"       ) read_fastq="$1"; arr+=("--read" "$1"); shift;;
+	esac
+done
+ref_folder=${ref%/*}
+#============================= Presentation ============================#
+echo =========================== MethylationDetection =====================
+echo Version 0.0.1-beta
+echo Universidad Nacional Autonoma de Mexico
+echo '#============================Parameters==============================#'
+echo 'input		|' $input
+echo 'output		|' $output
+echo 'reference	|'	$ref
+echo 'threads		|' $thr
+echo 'quality		|' $quality
+echo 'read		|' $read_fastq
+echo '#===================================================================#'
+
+#============================= Pipeline flow ============================#
+start=`date +%s`
+
+mkdir $output/CSV
+mkdir $output/Bismark
+
+
+bismark_rounded $input $output $ref_folder $thr $quality $read_fastq samples
+bindcov $output/Bismark/samples/bedGraph $output/CSV 'Sample'
+
+echo '================================================================='
+end=`date +%s`
+runtime=$((end-start))
+echo 'run time = ' $runtime'(sec)'
+echo '===================== AutoMethyc Complete ======================='
