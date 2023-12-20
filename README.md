@@ -32,3 +32,22 @@ unzip example.zip && cd example
 mkdir output
 methylationdetection -i FastqSamples -r [hg19_reference_genome_file] -o output
 ```
+
+
+
+
+## Output
+The execution output will result in subfolders in `output/Bismark/samples`:
+* aligned
+* bedGraph
+* bismark_extractor
+* deduplicated
+* fastq_trimmed
+* html_reports
+
+Finally, the methylation call of all samples will be compiled in: `output/raw_data.csv`
+
+| ID | Type | Chr | Start | End | Met_perc | Cyt_Met | Cyt_NoMet |
+| ------------ | ------------ | ------------ |  ------------ |  ------------ |  ------------ | ------------ |  ------------ |
+| MET-GT25_chr2_L1_1_val_1_bismark_bt2_pe.bismark.cov | Sample | Chr2 | 47596828	| 47596828 | 3.03926842388381 |	113	| 3605 |
+| MET-GT25_chr2_L1_1_val_1_bismark_bt2_pe.bismark.cov | Sample | Chr2 | 47596830	| 47596830 | 3.27956989247312 |	122	| 3598 |
